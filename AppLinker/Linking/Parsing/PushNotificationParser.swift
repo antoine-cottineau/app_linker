@@ -13,7 +13,7 @@ class PushNotificationParser: Parser {
         else {
             return nil
         }
-        
+
         return Payload(target: target, parameters: content)
     }
 }

@@ -7,7 +7,6 @@
 
 // A class used to create an instance of `Action`.
 class ActionFactory {
-    
     /// Create an `Action` that corresponds to the `payload`.
     /// - Parameter payload: The input `Payload`.
     /// - Returns: An instance of `Action`.

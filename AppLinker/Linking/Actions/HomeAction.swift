@@ -7,7 +7,7 @@
 
 /// An `Action` that is able to open the home screen.
 class HomeAction: Action {
-    func run(payload: Payload) {
+    func run(payload _: Payload) {
         MockedActionMaker.instance.lastAction = "home"
     }
 }
