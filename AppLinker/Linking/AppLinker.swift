@@ -21,7 +21,7 @@ public class AppLinker {
         handlePayload(payload)
     }
 
-    /// Try to use the `content` to perform and action.
+    /// Try to use the `content` to perform an action.
     /// - Parameter content: The content to use.
     public func handlePushNotification(content: [String: String]) {
         guard let payload = PushNotificationParser().parse(content: content) else {
@@ -29,7 +29,9 @@ public class AppLinker {
         }
         handlePayload(payload)
     }
-    
+
+    /// Use the `payload` to perform an action.
+    /// - Parameter payload: An instance of Payload.
     private func handlePayload(_ payload: Payload) {
         let action = ActionFactory().createAction(payload: payload)
         action.run(payload: payload)

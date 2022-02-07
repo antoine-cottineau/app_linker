@@ -7,17 +7,18 @@
 
 import Foundation
 
+/// A `Parser` that takes urls as input.
 class DeeplinkParser: Parser {
     func parse(content: URL) -> Payload? {
         guard let target = Target(rawValue: content.pathComponents[1]) else {
             return nil
         }
-        
+
         var parameters = [String: String]()
         URLComponents(url: content, resolvingAgainstBaseURL: false)?.queryItems?.forEach { queryItem in
             parameters[queryItem.name] = queryItem.value
         }
-        
+
         return Payload(target: target, parameters: parameters)
     }
 }
