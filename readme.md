@@ -211,6 +211,7 @@ class ActionFactory {
 The final step is too combine the parsing and the creation of an action in a single place. Thus, we create an `AppLinker` which should be the entry point of the module:
 
 ```swift
+// AppLinker.swift
 public class AppLinker {
     public static var instance = AppLinker()
 
