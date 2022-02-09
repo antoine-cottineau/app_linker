@@ -101,7 +101,7 @@ protocol Parser {
 }
 ```
 
-The associated type corresponds to the input type of the parser. For example, the following classes are implementation of `Parser` whose associated types are respectively `URL` and `[String: String]`:
+The associated type corresponds to the input type of the parser. For example, the following classes are implementations of `Parser` whose associated types are respectively `URL` and `[String: String]`:
 
 ```swift
 // DeeplinkParser.swift
