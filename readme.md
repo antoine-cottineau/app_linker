@@ -248,6 +248,6 @@ The code is pretty simple: `AppLinker` has two public methods, one for handling 
 
 The goal of this article was to provide a possible way to architecture a single module for handling both deeplinks and push notifications. There is certainly room for improvement but the code that is presented should constitute a solid start.
 
-To receive the content of a deeplink or a push notification, it is necessary, in iOS, to overwrite functions in the `AppDelegate` or the `SceneDelegate` depending on what you're using. See this documentation for more information: [AppDelegate](https://developer.apple.com/documentation/uikit/uiapplicationdelegate)/[SceneDelegate](https://developer.apple.com/documentation/uikit/uiscenedelegate).
+To receive the content of a deeplink or a push notification, there are several steps to follow, including overwritting functions in the `AppDelegate` or the `SceneDelegate` depending on what you're using. For more information, see [this article](https://www.donnywals.com/handling-deeplinks-in-your-app/) for implementing deeplinks and [this one](https://medium.com/fenrir-inc/handling-ios-push-notifications-the-not-so-apparent-side-420891ddf10b) for push notifications.
 
-Finally, I would like to thank David Rico (LINK TO DAVID'S PAGE). We both worked on the module and I learnt a lot by working with him.
+Finally, I would like to thank [David Rico](https://www.linkedin.com/in/davidricomobile). We both worked on the module and I learnt a lot by working with him.
