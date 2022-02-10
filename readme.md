@@ -1,6 +1,6 @@
 # Organizing your app to handle deeplinks and push notifications
 
-This article presents a way to organize in a same module the code for handling deeplinks and the one for handling push notifications. The code that is presented is written in Swift and for iOS but the architecture of the module and the logic of the code can be transposed to other languages and plateforms.
+This article presents a way to organize in the same module the code for handling deeplinks and the code for handling push notifications. The code that is presented is written in Swift and for iOS but the architecture of the module and the logic of the code can be transposed to other languages and technologies.
 
 The code is available at https://github.com/antoine-cottineau/app_linker.
 
@@ -17,7 +17,7 @@ Before diving into how the module is structured, let's briefly describe what dee
 
 A deeplink is a special kind of link that, when opened in the browser of a mobile phone, opens a specific screen of a native application. For example, for a company that provides a website and an application dedicated to weather forecasts, a deeplink could be used to open the screen of the app that shows the weather forecast for a specific day. If the user doesn't have the app installed or isn't on mobile, then the corresponding webpage can be opened in the browser. On iOS, deeplinks are called [universal links](https://developer.apple.com/ios/universal-links/) but we'll keep the term deeplink because it is more general.
 
-A push notification is a piece of data that can be sent from a backend to a mobile device. It often provide information to the user and can also encourage them to perform an action. For example, a football app may send push notifications to its users whenever a player is transfered from one club to another. By tapping on the push notification, the user would expect the app to open the screen that shows the match.
+A push notification is a piece of data that can be sent from a backend to a mobile device. It often provides information to the user and can also encourage them to act. For example, a football app may send push notifications to its users whenever a player is transferred from one club to another. By tapping on the push notification, the user would expect the app to open a screen that shows information about the transfer.
 
 Both deeplinks and push notifications are a good way to enrich an app. As the action performed when opening a deeplink or when tapping a push notification is often the same, it makes sense to create a single module for handling both structures.
 
@@ -25,7 +25,7 @@ Both deeplinks and push notifications are a good way to enrich an app. As the ac
 
 To keep the implementation concrete, we choose to design the module for a fictional recipe app called `bestrecipes`. This app could for example contain recipes that are posted by chefs, a way for the user to follow chefs, a grading system for the recipes...
 
-We'll focus on implementing deeplinks and push notifications that can either link to a homefeed or to a "recipes" screen. Here are some examples of possible deeplinks and push notifications:
+We'll focus on implementing deeplinks and push notifications that can either link to a home feed or to a "recipes" screen. Here are some examples of possible deeplinks and push notifications:
 
 ### Home
 
@@ -148,7 +148,7 @@ protocol Action {
 }
 ```
 
-Each class implementing `Action` should provid a run method that performs a specific task. For example, here are `HomeAction` and `RecipeAction`:
+Each class implementing `Action` should provide a run method that performs a specific task. For example, here are `HomeAction` and `RecipeAction`:
 
 ```swift
 class HomeAction: Action {
@@ -208,7 +208,7 @@ class ActionFactory {
 
 ### 3.4 Putting things together
 
-The final step is too combine the parsing and the creation of an action in a single place. Thus, we create an `AppLinker` which should be the entry point of the module:
+The final step is to combine the parsing and the creation of actions in a single place. Thus, we create an `AppLinker` which should be the entry point of the module:
 
 ```swift
 // AppLinker.swift
@@ -248,6 +248,6 @@ The code is pretty simple: `AppLinker` has two public methods, one for handling 
 
 The goal of this article was to provide a possible way to architecture a single module for handling both deeplinks and push notifications. There is certainly room for improvement but the code that is presented should constitute a solid start.
 
-To receive the content of a deeplink or a push notification, there are several steps to follow, including overwritting functions in the `AppDelegate` or the `SceneDelegate` depending on what you're using. For more information, see [this article](https://www.donnywals.com/handling-deeplinks-in-your-app/) for implementing deeplinks and [this one](https://medium.com/fenrir-inc/handling-ios-push-notifications-the-not-so-apparent-side-420891ddf10b) for push notifications.
+To receive the content of a deeplink or a push notification, there are several steps to follow, including overwriting functions in the `AppDelegate` or the `SceneDelegate` depending on what you're using. For more information, see [this article](https://www.donnywals.com/handling-deeplinks-in-your-app/) for implementing deeplinks and [this one](https://medium.com/fenrir-inc/handling-ios-push-notifications-the-not-so-apparent-side-420891ddf10b) for push notifications.
 
-Finally, I would like to thank [David Rico](https://www.linkedin.com/in/davidricomobile). We both worked on the module and I learnt a lot by working with him.
+Finally, I would like to thank [David Rico](https://www.linkedin.com/in/davidricomobile). We both worked on the module and I learned a lot by working with him.
