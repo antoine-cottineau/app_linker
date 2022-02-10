@@ -18,7 +18,7 @@ public class AppLinker {
         guard let payload = DeeplinkParser().parse(content: url) else {
             return
         }
-        handlePayload(payload)
+        PayloadHandler(payload).runAction()
     }
 
     /// Try to use the `content` to perform an action.
@@ -27,13 +27,6 @@ public class AppLinker {
         guard let payload = PushNotificationParser().parse(content: content) else {
             return
         }
-        handlePayload(payload)
-    }
-
-    /// Use the `payload` to perform an action.
-    /// - Parameter payload: An instance of Payload.
-    private func handlePayload(_ payload: Payload) {
-        let action = ActionFactory().createAction(payload: payload)
-        action.run(payload: payload)
+        PayloadHandler(payload).runAction()
     }
 }
