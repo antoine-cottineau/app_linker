@@ -136,31 +136,35 @@ class PushNotificationParser: Parser {
 }
 ```
 
-### 3.3 Creating actions
+### 3.3 Handling the payloads
 
-Once the parsing has been done, the next step is to perform the action that corresponds to the parsed `Payload`. To do so, we define a simple `Action` protocol:
-
-```swift
-// Action.swift
-protocol Action {
-    /// Use the `payload` to perform an action.
-    func run(payload: Payload)
-}
-```
-
-Each class implementing `Action` should provide a run method that performs a specific task. For example, here are `HomeAction` and `RecipeAction`:
+Once the parsing has been done, the next step is to perform the action associated with the parsed payload. To do so, we create a simple `PayloadHandler` class:
 
 ```swift
-class HomeAction: Action {
-    func run(payload: Payload) {
-        MockedActionMaker.instance.lastAction = "home"
+// PayloadHandler.swift
+class PayloadHandler {
+    /// The payload to handle.
+    let payload: Payload
+    
+    init(_ payload: Payload) {
+        self.payload = payload
     }
-}
-```
-
-```swift
-class RecipeAction: Action {
-    func run(payload: Payload) {
+    
+    /// Run the action that corresponds to the `payload`.
+    func runAction() {
+        switch payload.target {
+        case .home:
+            runForHome()
+        case .recipe:
+            runForRecipes()
+        }
+    }
+    
+    private func runForHome() {
+        // Open the home feed...
+    }
+    
+    private func runForRecipes() {
         // Parse the parameters of the payload.
         let id = payload.parameters["id"]
         let country = payload.parameters["country"]
@@ -171,37 +175,7 @@ class RecipeAction: Action {
             limit = nil
         }
 
-        // Create the action
-        var action = "recipe"
-        if let id = id {
-            action += " id=\(id)"
-        }
-        if let country = country {
-            action += " country=\(country)"
-        }
-        if let limit = limit {
-            action += " limit=\(limit)"
-        }
-        MockedActionMaker.instance.lastAction = action
-    }
-}
-```
-
-Finally, we create an `ActionFactory` that is used to get the correct implementation of `Action` depending on a given `Payload`:
-
-```swift
-// ActionFactory.swift
-class ActionFactory {
-    /// Create an `Action` that corresponds to the `payload`.
-    /// - Parameter payload: The input `Payload`.
-    /// - Returns: An instance of `Action`.
-    func createAction(payload: Payload) -> Action {
-        switch payload.target {
-        case .home:
-            return HomeAction()
-        case .recipe:
-            return RecipeAction()
-        }
+        // Use the parameters to open the correct recipe screen...
     }
 }
 ```
@@ -221,7 +195,7 @@ public class AppLinker {
         guard let payload = DeeplinkParser().parse(content: url) else {
             return
         }
-        handlePayload(payload)
+        PayloadHandler(payload).runAction()
     }
 
     /// Try to use the `content` to perform an action.
@@ -230,19 +204,12 @@ public class AppLinker {
         guard let payload = PushNotificationParser().parse(content: content) else {
             return
         }
-        handlePayload(payload)
-    }
-
-    /// Use the `payload` to perform an action.
-    /// - Parameter payload: An instance of Payload.
-    private func handlePayload(_ payload: Payload) {
-        let action = ActionFactory().createAction(payload: payload)
-        action.run(payload: payload)
+        PayloadHandler(payload).runAction()
     }
 }
 ```
 
-The code is pretty simple: `AppLinker` has two public methods, one for handling deeplinks and the other for handling push notifications. Both methods start by parsing their input into a `Payload` and then run the corresponding action.
+The code is pretty simple: `AppLinker` has two public methods, one for handling deeplinks and the other for handling push notifications. Both methods start by parsing their input into a `Payload` that is then used by the `PayloadHandler` to perform the associated action.
 
 ## 4. Conclusion
 
