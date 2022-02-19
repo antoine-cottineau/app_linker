@@ -136,6 +136,8 @@ class PushNotificationParser: Parser {
 }
 ```
 
+On a side note, the classes and protocols responsible for producing payloads are an example of implementation of the [strategy pattern](https://refactoring.guru/design-patterns/strategy).
+
 ### 3.3 Handling the payloads
 
 Once the parsing has been done, the next step is to perform the action associated with the parsed payload. To do so, we create a simple `PayloadHandler` class:
